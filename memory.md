@@ -12,7 +12,7 @@ Se creó una web app MVP llamada **Ovum** para monitoreo menstrual multiusuaria.
 - JavaScript moderno
 - `lucide-react` para iconos
 - Persistencia local mediante `localStorage`
-- Surge para deploy estático
+- ~~Surge~~ → migrado a **Netlify** (ver sección Deploy)
 
 ## Funcionalidades implementadas
 
@@ -113,9 +113,24 @@ src/
 
 ## Deploy
 
-- Sitio publicado en Surge: https://ovumww.surge.sh/
-- Comando usado: `npx surge dist ovumww.surge.sh`
-- Cuenta usada por Surge durante deploy: `cognytia.solutions@gmail.com`
+### Surge (deprecado)
+- Sitio publicado originalmente en Surge: https://ovumww.surge.sh/
+- Cuenta: `cognytia.solutions@gmail.com`
+
+### GitHub + Netlify (actual)
+- Repositorio: https://github.com/xuarez29/ovum (rama `main`)
+- Sitio en producción: https://ovum-app.netlify.app
+- Panel Netlify: https://app.netlify.com/projects/ovum-app
+- Configuración en `netlify.toml`: build `npm run build`, publish `dist`, redirect SPA `/* → /index.html`
+- Deploy manual: `netlify deploy --prod --dir=dist`
+- Para activar auto-deploy desde GitHub: Netlify → Site configuration → Build & deploy → Connect to Git → seleccionar repo `ovum`
+
+## Bugs corregidos
+
+### Formulario invisible al agregar la 5ª+ usuaria (2026-06-22)
+- **Síntoma:** el botón "Agregar" no parecía abrir el formulario con 4+ usuarias.
+- **Causa:** el formulario sí se abría pero aparecía al inicio de la página, fuera de la vista cuando el usuario estaba scrolleado hacia abajo en las tarjetas del dashboard.
+- **Fix:** `openCreateUser()` en `App.jsx` ahora hace `scrollIntoView({ behavior: 'smooth' })` al `userFormRef` 50ms después de abrir el formulario.
 
 ## Verificación realizada
 
@@ -124,8 +139,7 @@ src/
 - Se probó `calculateCycle` directamente con datos de ejemplo en Node.
 - Se probó `getCycleDisplayUsers` con datos de ejemplo para validar el adaptador de tarjetas/anillo.
 - Se levantó Vite en `http://127.0.0.1:5173/`.
-- Se verificó respuesta HTTP local `200 OK`.
-- Se verificó producción en `https://ovumww.surge.sh/` con `HTTP/1.1 200 OK`.
+- Se verificó producción en `https://ovum-app.netlify.app`.
 
 ## Pendientes o posibles mejoras
 
