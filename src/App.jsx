@@ -19,6 +19,7 @@ export default function App() {
   const [showCycleForm, setShowCycleForm] = useState(false);
   const [message, setMessage] = useState('');
   const importInputRef = useRef(null);
+  const userFormRef = useRef(null);
 
   useEffect(() => {
     saveUsers(users);
@@ -36,6 +37,7 @@ export default function App() {
   function openCreateUser() {
     setEditingUser(null);
     setShowUserForm(true);
+    window.setTimeout(() => userFormRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
   }
 
   function saveUser(formData) {
@@ -180,7 +182,7 @@ export default function App() {
         {message && <div className="mb-5 rounded-2xl border border-[#cfe2d1] bg-[#eef7ef] px-4 py-3 text-sm font-medium text-[#426f4b]">{message}</div>}
 
         {showUserForm && (
-          <section className="mb-6 rounded-3xl border border-arcillaLine bg-white p-5 shadow-soft">
+          <section ref={userFormRef} className="mb-6 rounded-3xl border border-arcillaLine bg-white p-5 shadow-soft">
             <h2 className="mb-4 font-serif text-2xl font-medium text-ink">{editingUser ? 'Editar usuaria' : 'Agregar usuaria'}</h2>
             <UserForm user={editingUser} onSave={saveUser} onCancel={() => setShowUserForm(false)} />
           </section>
